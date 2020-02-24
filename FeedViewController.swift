@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import AlamofireImage
 
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -20,13 +21,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 500
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(true)
         
-        let query = PFQuery(className: "Posts")
+        let query = PFQuery(className: "Pets")
         query.includeKey("author")
         
         query.limit = 20
@@ -54,6 +56,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         cell.captionLabel.text = post["caption"] as! String
         
+        let imageFile = post["image"] as! PFFileObject
+        let urlString = imageFile.url!
+        let url = URL(string: urlString)!
+        
+        cell.photoView.af_setImage(withURL: url)
         return cell
     }
     

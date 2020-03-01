@@ -46,6 +46,26 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return posts.count
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = posts[indexPath.row]
+        
+        let comment = PFUser(className: "Comments")
+        comment["text"] = "Hallelujahhhhh God is GOOD!!!"
+        comment["post"] = post
+        comment["author"] = PFUser.current()!
+        
+        post.add(comment, forKey: "comments")
+        
+        post.saveInBackground { (success, error) in
+            if success {
+                print("Comment saved")
+            } else {
+                print("Error saving comment")
+            }
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
         
@@ -73,5 +93,20 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    @IBAction func onLogoutButton(_ sender: Any) {
+        PFUser.logOutInBackground { (error) in
+            self.performSegue(withIdentifier: "logoutSegue", sender: self)
+        }
+        /*
+        PFUser.logOut()
+        
+        let main = UIStoryboard(name: "Main", bundle: nil)
+        let loginViewController = main.instantiateViewController(identifier: "LoginViewController")
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.window?.rootViewController = loginViewController
+        */
+    }
+    
 }

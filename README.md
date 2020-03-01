@@ -42,6 +42,9 @@ The following **bonus** features are implemented:
 - [ ] User can add a profile picture. (2pts)
 - [ ] Profile pictures are shown for posts and comments. (2pts)
 
+## Issues:
+- The log in and log out feature wasn't working because the method used by the video was weird
+
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
